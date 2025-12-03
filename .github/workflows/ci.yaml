@@ -1,0 +1,32 @@
+---
+
+name: Complete Devops Project pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set Short SHA
+      run: |
+        echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -cl-7)" >> $GITHUB_ENV
+
+    - name: Build Docker Image 
+      run: |
+        docker build -t Julius36/villaja-place:${{ env.SHORT_SHA }} .
+
+    - name: Login to DockerHub
+      run: |
+        echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      
+    - name: Push Docker Image to DockerHub
+      run: |
+        docker push Julius36/villaja-place:${{ env.SHORT_SHA }}
+  
