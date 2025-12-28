@@ -41,5 +41,5 @@ jobs:
       run: |
         sed -i "s/tag: .*/tag: ${{ env.SHORT_SHA }}/g" villaja-project/values.yaml
         git add ./villaja-project/values.yaml
-        git commit -m "Update image tag to ${{ env.SHORT_SHA }}" || echo "No changes to commit"
-        git push origin main || echo "Push failed (check permissions)"
+        git commit -m "Update image tag to ${{ env.SHORT_SHA }}" 
+        git push origin main
