@@ -1,8 +1,2 @@
-* text=auto eol=lf
-*.sh text eol=lf
-*.yaml text eol=lf
-*.yml text eol=lf
-*.tpl text eol=lf
-*.tf text eol=lf
-*.hcl text eol=lf
-*.helmignore text eol=lf
+
+
