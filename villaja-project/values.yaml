@@ -1,0 +1,15 @@
+image: 
+  repository: villaja/villaja-app
+  tag: latest
+  pullPolicy: IfNotPresent
+services:
+  database:
+    type: ClusterIP
+    port: 8000
+ingress:
+  enabled: false
+service_account:
+  enabled: false
+autoscaling:
+  enabled: false
+

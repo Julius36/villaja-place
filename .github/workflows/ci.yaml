@@ -31,3 +31,15 @@ jobs:
     - name: Push Docker Image to DockerHub
       run: |
         docker push julius36/villaja-project:${{ env.SHORT_SHA }}
+
+    - name: Configure Git Author
+      run: |
+        git config --global user.name "Julius36"
+        git config --global user.email "onifadejulius36@gmail.com"
+
+    - name: Update Helm CHart with New Image Tag
+      run: |
+        sed -i 's/tag: .*/tag: '${{ env.SHORT_SHA }}'/g' villaja-project/values.yaml
+        git add ./villaja-project/values.yaml`
+        git commit -m "Update image tag to ${{ env.SHORT_SHA }}"
+        git push origin main
