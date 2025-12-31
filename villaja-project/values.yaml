@@ -1,6 +1,6 @@
 image: 
   repository: villaja/villaja-app
-  tag: e6b5631
+  tag: 0353995
   pullPolicy: IfNotPresent
 services:
   database:
