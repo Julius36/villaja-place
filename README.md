@@ -2,7 +2,7 @@
 
 Comprehensive infrastructure and deployment configs for the villaja app project.
 
-This repository contains Terraform, Helm, ArgoCD and container tooling used to build, package and deploy the Villaja application to Kubernetes. It provides production-oriented, reproducible Terraform + GitOps patterns for infrastructure and application delivery.
+This repository contains Tofu, Helm, ArgoCD and container tooling used to build, package and deploy the Villaja application to Kubernetes. It provides production-oriented, reproducible Tofu + GitOps patterns for infrastructure and application delivery.
 
 ## Repository layout
 
@@ -21,7 +21,7 @@ This repository contains Terraform, Helm, ArgoCD and container tooling used to b
 
 ## Goals and scope
 
-- Provide Terraform examples to provision cluster/cloud resources and supporting infra.
+- Provide Tofu examples to provision cluster/cloud resources and supporting infra.
 - Build a Docker image for the `villaja` app and publish it to a container registry.
 - Package the app into a Helm chart (`villaja-project`) for Kubernetes deployment.
 - Demonstrate GitOps deployment via ArgoCD manifest and optional Terraform-managed ArgoCD.
@@ -30,7 +30,7 @@ This repository contains Terraform, Helm, ArgoCD and container tooling used to b
 ## Prerequisites
 
 - `docker` (build and test local images)
-- `terraform` (recommended v1.5+ or compatible with the included lockfile)
+- `tofu` (compatible with the included lockfile)
 - `kubectl` (interact with Kubernetes cluster)
 - `helm` (install or test charts)
 - `argocd` CLI (optional, for managing ArgoCD)
@@ -53,16 +53,18 @@ docker run --rm -p 8080:8080 villaja:local
 # then visit http://localhost:8080
 ```
 
-3. Initialize Terraform and apply infrastructure changes:
+
+3. Initialize Tofu and apply infrastructure changes:
 
 ```bash
 cd Projects/tofu-configs
-terraform init
-terraform plan -out=tfplan
-terraform apply tfplan
+tofu init
+tofu plan -out=tfplan
+tofu apply tfplan
 ```
 
 If you use a remote backend, ensure credentials and backend config are set in `backend.tf`.
+
 
 4. Package and install the Helm chart to your Kubernetes cluster:
 
@@ -92,20 +94,20 @@ docker build -t <registry>/villaja:<tag> -f Projects/tofu-configs/Dockerfile .
 docker push <registry>/villaja:<tag>
 ```
 
-## Terraform notes
+## Tofu notes
 
-- Terraform files are at the repository root: [main.tf](Projects/tofu-configs/main.tf), [provider.tf](Projects/tofu-configs/provider.tf), [variables.tf](Projects/tofu-configs/variables.tf).
+- Tofu configuration files are at the repository root: [main.tf](Projects/tofu-configs/main.tf), [provider.tf](Projects/tofu-configs/provider.tf), [variables.tf](Projects/tofu-configs/variables.tf).
 - `backend.tf` controls where state is stored. If you plan to collaborate, configure a remote backend (S3/GCS/remote state).
-- The repository includes a `.terraform.lock.hcl` to lock provider versions. Use a compatible Terraform version.
+- The repository includes a lockfile (`.terraform.lock.hcl`) to lock provider versions; this is compatible with Tofu.
 
-Common Terraform commands:
+Common Tofu commands:
 
 ```bash
-terraform init
-terraform fmt
-terraform validate
-terraform plan -out=tfplan
-terraform apply tfplan
+tofu init
+tofu fmt
+tofu validate
+tofu plan -out=tfplan
+tofu apply tfplan
 ```
 
 ## Helm chart (villaja-project)
@@ -137,7 +139,7 @@ If you want the workflow to publish images, add the required secrets (`CR_PAT`, 
 
 ## Troubleshooting
 
-- Terraform errors: run `terraform init -reconfigure` and check provider versions in `.terraform.lock.hcl`.
+- Tofu errors: run `tofu init -reconfigure` and check provider versions in `.terraform.lock.hcl`.
 - Kubernetes deployments fail: `kubectl describe pod <pod>` and `kubectl logs <pod>` are first-stop diagnostics.
 
 ## Contributing
