@@ -1,4 +1,4 @@
-# tofu-configs
+# Villaja Place
 
 Comprehensive infrastructure and deployment configs for the villaja app project.
 
